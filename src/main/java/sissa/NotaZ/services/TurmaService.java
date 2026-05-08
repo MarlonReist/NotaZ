@@ -45,13 +45,13 @@ public class TurmaService {
 
     public TurmaResponseDTO buscarPorId(Long id) {
         Turma turma = turmaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Turma não encontrada. Id: " + id));
         return new TurmaResponseDTO(turma);
     }
 
     public void deletar(Long id) {
         Turma turma = turmaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Turma não encontrada. Id: " + id));
 
         try {
             turmaRepository.deleteById(id);
@@ -70,7 +70,7 @@ public class TurmaService {
 
     public TurmaResponseDTO atualizar(Long id, TurmaRequestDTO dto) {
         Turma turmaExistente = turmaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Turma não encontrada. Id: " + id));
 
         Optional<Turma> encontrada = turmaRepository.findByCursoAndPeriodo(dto.getCurso(),dto.getPeriodo());
 

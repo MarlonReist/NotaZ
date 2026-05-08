@@ -48,13 +48,13 @@ public class UsuarioService {
 
     public UsuarioResponseDTO buscarPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado. Id: " + id));
         return new UsuarioResponseDTO(usuario);
     }
 
     public void deletar(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado. Id: " + id));
 
         if (usuario.isAtivo()) {
             throw new DatabaseException("Não é possível deletar usuário ativo!");
@@ -70,7 +70,7 @@ public class UsuarioService {
 
     public UsuarioResponseDTO atualizar(Long id, UsuarioRequestDTO dto) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado. Id: " + id));
 
         Usuario outroUsuario = usuarioRepository.findByEmail(dto.getEmail()).orElse(null);
 
@@ -87,7 +87,7 @@ public class UsuarioService {
 
     public UsuarioResponseDTO desativar(Long id) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado. Id: " + id));
 
         usuarioExistente.setAtivo(false);
         Usuario usuarioSalvo = usuarioRepository.save(usuarioExistente);
@@ -96,7 +96,7 @@ public class UsuarioService {
 
     public UsuarioResponseDTO ativar(Long id) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado. Id: " + id));
 
         usuarioExistente.setAtivo(true);
         Usuario usuarioSalvo = usuarioRepository.save(usuarioExistente);

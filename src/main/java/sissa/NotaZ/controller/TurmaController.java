@@ -16,7 +16,6 @@ public class TurmaController {
 
     private final TurmaService turmaService;
 
-
     public TurmaController(TurmaService turmaService) {
         this.turmaService = turmaService;
     }
