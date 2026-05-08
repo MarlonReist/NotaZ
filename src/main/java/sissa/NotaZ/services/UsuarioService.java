@@ -1,9 +1,10 @@
 package sissa.NotaZ.services;
 
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sissa.NotaZ.domain.Usuario;
+import sissa.NotaZ.domain.enums.TipoEnum;
 import sissa.NotaZ.services.exceptions.DatabaseException;
 import sissa.NotaZ.services.exceptions.ResourceNotFoundException;
 import sissa.NotaZ.dto.UsuarioRequestDTO;
@@ -24,7 +25,11 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioResponseDTO salvar(UsuarioRequestDTO dto){
+    public UsuarioResponseDTO salvar(UsuarioRequestDTO dto) {
+        if (dto.getTipo() == TipoEnum.ADMIN && usuarioRepository.existsByTipo(TipoEnum.ADMIN)) {
+            throw new DatabaseException("Já existe um usuário ADMIN no sistema");
+        }
+
         if (usuarioRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new DatabaseException();
         }
@@ -41,13 +46,13 @@ public class UsuarioService {
         return new UsuarioResponseDTO(usuarioSalvo);
     }
 
-    public UsuarioResponseDTO buscarPorId(Long id){
+    public UsuarioResponseDTO buscarPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id));
         return new UsuarioResponseDTO(usuario);
     }
 
-    public void deletar(Long id){
+    public void deletar(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id));
 
@@ -58,18 +63,18 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    public List<UsuarioResponseDTO> listarTodos(){
-    List<Usuario> list = usuarioRepository.findAll();
-    return list.stream().map(UsuarioResponseDTO::new).collect(Collectors.toList());
+    public List<UsuarioResponseDTO> listarTodos() {
+        List<Usuario> list = usuarioRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return list.stream().map(UsuarioResponseDTO::new).collect(Collectors.toList());
     }
 
-    public UsuarioResponseDTO atualizar(Long id, UsuarioRequestDTO dto){
+    public UsuarioResponseDTO atualizar(Long id, UsuarioRequestDTO dto) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id));
 
         Usuario outroUsuario = usuarioRepository.findByEmail(dto.getEmail()).orElse(null);
 
-        if (outroUsuario == null || outroUsuario.getId().equals(usuarioExistente.getId())){
+        if (outroUsuario == null || outroUsuario.getId().equals(usuarioExistente.getId())) {
             usuarioExistente.setNome(dto.getNome());
             usuarioExistente.setSenha(dto.getSenha());
             usuarioExistente.setEmail(dto.getEmail());
@@ -80,7 +85,7 @@ public class UsuarioService {
         throw new DatabaseException();
     }
 
-    public UsuarioResponseDTO desativar(Long id){
+    public UsuarioResponseDTO desativar(Long id) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id));
 
@@ -89,7 +94,7 @@ public class UsuarioService {
         return new UsuarioResponseDTO(usuarioSalvo);
     }
 
-    public UsuarioResponseDTO ativar(Long id){
+    public UsuarioResponseDTO ativar(Long id) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id));
 

@@ -35,11 +35,11 @@ public class Professor implements Serializable {
         this.id = id;
     }
 
-    public String getMatricula() {
+    public String getRa() {
         return ra;
     }
 
-    public void setMatricula(String ra) {
+    public void setRa(String ra) {
         this.ra = ra;
     }
 
