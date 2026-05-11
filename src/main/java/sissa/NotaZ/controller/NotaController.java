@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sissa.NotaZ.dto.MediaAlunoDisciplinaResponseDTO;
 import sissa.NotaZ.dto.NotaRequestDTO;
 import sissa.NotaZ.dto.NotaResponseDTO;
 import sissa.NotaZ.services.NotaService;
@@ -48,5 +49,11 @@ public class NotaController {
     public ResponseEntity<NotaResponseDTO> atualizar(@PathVariable Long id, @RequestBody @Valid NotaRequestDTO dto) {
         NotaResponseDTO dtoAtualizado = notaService.atualizar(id, dto);
         return ResponseEntity.ok(dtoAtualizado);
+    }
+
+    @GetMapping(value = "/media/aluno/{alunoId}/disciplina/{disciplinaId}")
+    public ResponseEntity<MediaAlunoDisciplinaResponseDTO> calcularMediaAlunoDisciplina(@PathVariable Long alunoId, @PathVariable Long disciplinaId) {
+        MediaAlunoDisciplinaResponseDTO mediaDTO = notaService.calcularMediaAlunoDisciplina(alunoId, disciplinaId);
+        return ResponseEntity.ok(mediaDTO);
     }
 }

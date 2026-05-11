@@ -5,11 +5,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sissa.NotaZ.domain.Aluno;
 import sissa.NotaZ.domain.Avaliacao;
+import sissa.NotaZ.domain.Disciplina;
 import sissa.NotaZ.domain.Nota;
+import sissa.NotaZ.dto.MediaAlunoDisciplinaResponseDTO;
 import sissa.NotaZ.dto.NotaRequestDTO;
 import sissa.NotaZ.dto.NotaResponseDTO;
 import sissa.NotaZ.repositories.AlunoRepository;
 import sissa.NotaZ.repositories.AvaliacaoRepository;
+import sissa.NotaZ.repositories.DisciplinaRepository;
 import sissa.NotaZ.repositories.NotaRepository;
 import sissa.NotaZ.services.exceptions.DatabaseException;
 import sissa.NotaZ.services.exceptions.ResourceNotFoundException;
@@ -23,11 +26,13 @@ public class NotaService {
     private final NotaRepository notaRepository;
     private final AlunoRepository alunoRepository;
     private final AvaliacaoRepository avaliacaoRepository;
+    private final DisciplinaRepository disciplinaRepository;
 
-    public NotaService(NotaRepository notaRepository, AlunoRepository alunoRepository, AvaliacaoRepository avaliacaoRepository) {
+    public NotaService(NotaRepository notaRepository, AlunoRepository alunoRepository, AvaliacaoRepository avaliacaoRepository, DisciplinaRepository disciplinaRepository) {
         this.notaRepository = notaRepository;
         this.alunoRepository = alunoRepository;
         this.avaliacaoRepository = avaliacaoRepository;
+        this.disciplinaRepository = disciplinaRepository;
     }
 
     @Transactional
@@ -89,6 +94,34 @@ public class NotaService {
 
         Nota notaSalva = notaRepository.save(notaExistente);
         return new NotaResponseDTO(notaSalva);
+    }
+
+    public MediaAlunoDisciplinaResponseDTO calcularMediaAlunoDisciplina(Long alunoId, Long disciplinaId){
+
+        Aluno alunoExistente = alunoRepository.findById(alunoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado. Id: " + alunoId));
+
+        Disciplina disciplinaExistente = disciplinaRepository.findById(disciplinaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada. Id: " + disciplinaId));
+
+        List<Nota> notas = notaRepository.findByAlunoIdAndAvaliacaoDisciplinaId(alunoId, disciplinaId);
+
+        if (notas.isEmpty()) {
+            throw new ResourceNotFoundException(("Nenhuma nota encontrada para este aluno nesta disciplina."));
+        }
+
+        double somaPonderada = 0.0;
+        double totalPeso = 0.0;
+
+        for (Nota nota : notas) {
+            double peso = nota.getAvaliacao().getPeso();
+            somaPonderada += nota.getValorNota() * peso;
+            totalPeso += peso;
+        }
+
+        double media = somaPonderada / totalPeso;
+
+        return new MediaAlunoDisciplinaResponseDTO(alunoExistente.getId(), alunoExistente.getUsuario().getNome(), disciplinaExistente.getId(), disciplinaExistente.getNome(), media, totalPeso, notas.size());
     }
 
 }
