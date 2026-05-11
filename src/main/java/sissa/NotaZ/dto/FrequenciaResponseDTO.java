@@ -12,25 +12,31 @@ public class FrequenciaResponseDTO implements Serializable {
 
     private Long id;
     private LocalDate data;
+    private Integer quantidadeAulas;
     private Boolean presente;
     private Long alunoId;
     private String alunoMatricula;
     private String alunoNome;
+    private Long aulaId;
     private Long disciplinaId;
     private String disciplinaNome;
+    private Long turmaId;
 
     public FrequenciaResponseDTO(){
     }
 
     public FrequenciaResponseDTO(Frequencia frequencia){
         id = frequencia.getId();
-        data = frequencia.getData();
+        data = frequencia.getAula().getData();
+        quantidadeAulas = frequencia.getAula().getQuantidadeAulas();
         presente = frequencia.getPresente();
         alunoId = frequencia.getAluno().getId();
         alunoMatricula = frequencia.getAluno().getMatricula();
         alunoNome = frequencia.getAluno().getUsuario().getNome();
-        disciplinaId = frequencia.getDisciplina().getId();
-        disciplinaNome = frequencia.getDisciplina().getNome();
+        aulaId = frequencia.getAula().getId();
+        disciplinaId = frequencia.getAula().getDisciplina().getId();
+        disciplinaNome = frequencia.getAula().getDisciplina().getNome();
+        turmaId = frequencia.getAula().getTurma().getId();
     }
 
     public Long getId() {
@@ -47,6 +53,14 @@ public class FrequenciaResponseDTO implements Serializable {
 
     public void setData(LocalDate data) {
         this.data = data;
+    }
+
+    public Integer getQuantidadeAulas() {
+        return quantidadeAulas;
+    }
+
+    public void setQuantidadeAulas(Integer quantidadeAulas) {
+        this.quantidadeAulas = quantidadeAulas;
     }
 
     public Boolean getPresente() {
@@ -81,6 +95,14 @@ public class FrequenciaResponseDTO implements Serializable {
         this.alunoNome = alunoNome;
     }
 
+    public Long getAulaId() {
+        return aulaId;
+    }
+
+    public void setAulaId(Long aulaId) {
+        this.aulaId = aulaId;
+    }
+
     public Long getDisciplinaId() {
         return disciplinaId;
     }
@@ -95,5 +117,13 @@ public class FrequenciaResponseDTO implements Serializable {
 
     public void setDisciplinaNome(String disciplinaNome) {
         this.disciplinaNome = disciplinaNome;
+    }
+
+    public Long getTurmaId() {
+        return turmaId;
+    }
+
+    public void setTurmaId(Long turmaId) {
+        this.turmaId = turmaId;
     }
 }

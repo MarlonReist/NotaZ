@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -15,23 +14,21 @@ public class Frequencia implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate data;
     private Boolean presente;
     @ManyToOne
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
     @ManyToOne
-    @JoinColumn(name = "disciplina_id")
-    private Disciplina disciplina;
+    @JoinColumn(name = "aula_id")
+    private Aula aula;
 
     public Frequencia(){
     }
 
-    public Frequencia(LocalDate data, Boolean presente, Aluno aluno, Disciplina disciplina) {
-        this.data = data;
+    public Frequencia(Boolean presente, Aluno aluno, Aula aula) {
         this.presente = presente;
         this.aluno = aluno;
-        this.disciplina = disciplina;
+        this.aula = aula;
     }
 
     public Long getId() {
@@ -40,14 +37,6 @@ public class Frequencia implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
     }
 
     public Boolean getPresente() {
@@ -66,12 +55,12 @@ public class Frequencia implements Serializable {
         this.aluno = aluno;
     }
 
-    public Disciplina getDisciplina() {
-        return disciplina;
+    public Aula getAula() {
+        return aula;
     }
 
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
+    public void setAula(Aula aula) {
+        this.aula = aula;
     }
 
     @Override

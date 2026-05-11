@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sissa.NotaZ.dto.FrequenciaRequestDTO;
 import sissa.NotaZ.dto.FrequenciaResponseDTO;
+import sissa.NotaZ.dto.ResumoFrequenciaResponseDTO;
 import sissa.NotaZ.services.FrequenciaService;
 
 import java.util.List;
@@ -42,6 +43,14 @@ public class FrequenciaController {
     public ResponseEntity<List<FrequenciaResponseDTO>> listarTodos() {
         List<FrequenciaResponseDTO> listDto = frequenciaService.listarTodos();
         return ResponseEntity.ok(listDto);
+    }
+
+    @GetMapping(value = "/resumo/aluno/{alunoId}/disciplina/{disciplinaId}")
+    public ResponseEntity<ResumoFrequenciaResponseDTO> calcularResumoAlunoDisciplina(
+            @PathVariable Long alunoId,
+            @PathVariable Long disciplinaId) {
+        ResumoFrequenciaResponseDTO resumoDTO = frequenciaService.calcularResumoAlunoDisciplina(alunoId, disciplinaId);
+        return ResponseEntity.ok(resumoDTO);
     }
 
     @PutMapping(value = "/{id}")

@@ -2,35 +2,22 @@ package sissa.NotaZ.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
-
 public class FrequenciaRequestDTO {
 
-    @NotNull(message = "Data é obrigatória!")
-    private LocalDate data;
     @NotNull(message = "Presença é obrigatória!")
     private Boolean presente;
     @NotNull(message = "Aluno é obrigatório!")
     private Long alunoId;
-    @NotNull(message = "Disciplina é obrigatória!")
-    private Long disciplinaId;
+    @NotNull(message = "Aula é obrigatória!")
+    private Long aulaId;
 
     public FrequenciaRequestDTO(){
     }
 
-    public FrequenciaRequestDTO(LocalDate data, Boolean presente, Long alunoId, Long disciplinaId) {
-        this.data = data;
+    public FrequenciaRequestDTO(Boolean presente, Long alunoId, Long aulaId) {
         this.presente = presente;
         this.alunoId = alunoId;
-        this.disciplinaId = disciplinaId;
-    }
-
-    public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
+        this.aulaId = aulaId;
     }
 
     public Boolean getPresente() {
@@ -49,11 +36,11 @@ public class FrequenciaRequestDTO {
         this.alunoId = alunoId;
     }
 
-    public Long getDisciplinaId() {
-        return disciplinaId;
+    public Long getAulaId() {
+        return aulaId;
     }
 
-    public void setDisciplinaId(Long disciplinaId) {
-        this.disciplinaId = disciplinaId;
+    public void setAulaId(Long aulaId) {
+        this.aulaId = aulaId;
     }
 }

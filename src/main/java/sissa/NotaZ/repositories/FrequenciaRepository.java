@@ -3,11 +3,13 @@ package sissa.NotaZ.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import sissa.NotaZ.domain.Frequencia;
 
-import java.time.LocalDate;
+import java.util.List;
 
 public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 
-    boolean existsByAlunoIdAndDisciplinaIdAndData(Long alunoId, Long disciplinaId, LocalDate data);
+    boolean existsByAlunoIdAndAulaId(Long alunoId, Long aulaId);
 
-    boolean existsByAlunoIdAndDisciplinaIdAndDataAndIdNot(Long alunoId, Long disciplinaId, LocalDate data, Long id);
+    boolean existsByAlunoIdAndAulaIdAndIdNot(Long alunoId, Long aulaId, Long id);
+
+    List<Frequencia> findByAlunoIdAndAulaDisciplinaId(Long alunoId, Long disciplinaId);
 }
