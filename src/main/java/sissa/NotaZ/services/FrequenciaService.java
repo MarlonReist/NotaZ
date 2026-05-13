@@ -42,6 +42,10 @@ public class FrequenciaService {
         Aluno aluno = alunoRepository.findById(dto.getAlunoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado. Id: " + dto.getAlunoId()));
 
+        if (!aluno.getUsuario().isAtivo()) {
+            throw new DatabaseException("Aluno informado está inativo!");
+        }
+
         Aula aula = aulaRepository.findById(dto.getAulaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Aula não encontrada. Id: " + dto.getAulaId()));
 
@@ -85,6 +89,10 @@ public class FrequenciaService {
         Aluno aluno = alunoRepository.findById(dto.getAlunoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado. Id: " + dto.getAlunoId()));
 
+        if (!aluno.getUsuario().isAtivo()) {
+            throw new DatabaseException("Aluno informado está inativo!");
+        }
+
         Aula aula = aulaRepository.findById(dto.getAulaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Aula não encontrada. Id: " + dto.getAulaId()));
 
@@ -103,6 +111,10 @@ public class FrequenciaService {
     public ResumoFrequenciaResponseDTO calcularResumoAlunoDisciplina(Long alunoId, Long disciplinaId) {
         Aluno aluno = alunoRepository.findById(alunoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado. Id: " + alunoId));
+
+        if (!aluno.getUsuario().isAtivo()) {
+            throw new DatabaseException("Aluno informado está inativo!");
+        }
 
         Disciplina disciplina = disciplinaRepository.findById(disciplinaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada. Id: " + disciplinaId));

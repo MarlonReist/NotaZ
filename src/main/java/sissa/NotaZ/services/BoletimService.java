@@ -36,6 +36,10 @@ public class BoletimService {
         Aluno aluno = alunoRepository.findById(dto.getAlunoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado. Id: " + dto.getAlunoId()));
 
+        if (!aluno.getUsuario().isAtivo()) {
+            throw new DatabaseException("Aluno informado está inativo!");
+        }
+
         Turma turma = turmaRepository.findById(dto.getTurmaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Turma não encontrada. Id: " + dto.getTurmaId()));
 
@@ -88,6 +92,10 @@ public class BoletimService {
 
         Aluno aluno = alunoRepository.findById(dto.getAlunoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado. Id: " + dto.getAlunoId()));
+
+        if (!aluno.getUsuario().isAtivo()) {
+            throw new DatabaseException("Aluno informado está inativo!");
+        }
 
         Turma turma = turmaRepository.findById(dto.getTurmaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Turma não encontrada. Id: " + dto.getTurmaId()));

@@ -36,6 +36,10 @@ public class AulaService {
         Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada. Id: " + dto.getDisciplinaId()));
 
+        if (!disciplina.getProfessor().getUsuario().isAtivo()) {
+            throw new DatabaseException("Professor da disciplina está inativo!");
+        }
+
         Turma turma = turmaRepository.findById(dto.getTurmaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Turma não encontrada. Id: " + dto.getTurmaId()));
 
@@ -85,6 +89,10 @@ public class AulaService {
 
         Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada. Id: " + dto.getDisciplinaId()));
+
+        if (!disciplina.getProfessor().getUsuario().isAtivo()) {
+            throw new DatabaseException("Professor da disciplina está inativo!");
+        }
 
         Turma turma = turmaRepository.findById(dto.getTurmaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Turma não encontrada. Id: " + dto.getTurmaId()));

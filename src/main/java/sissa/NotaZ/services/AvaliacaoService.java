@@ -32,6 +32,10 @@ public class AvaliacaoService {
         Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada. Id: " + dto.getDisciplinaId()));
 
+        if (!disciplina.getProfessor().getUsuario().isAtivo()) {
+            throw new DatabaseException("Professor da disciplina está inativo!");
+        }
+
         if (avaliacaoRepository.existsByDisciplinaIdAndNomeAndData(disciplina.getId(), dto.getNome(), dto.getData())) {
             throw new DatabaseException("Já existe avaliação com esse nome nessa disciplina nessa data");
         }
@@ -74,15 +78,21 @@ public class AvaliacaoService {
         Avaliacao avaliacao = avaliacaoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Avaliação não encontrada. Id: " + id));
 
-        Long disciplinaId = avaliacao.getDisciplina().getId();
+        Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada. Id: " + dto.getDisciplinaId()));
 
-        if (avaliacaoRepository.existsByDisciplinaIdAndNomeAndDataAndIdNot(disciplinaId, dto.getNome(), dto.getData(), id)) {
+        if (!disciplina.getProfessor().getUsuario().isAtivo()) {
+            throw new DatabaseException("Professor da disciplina está inativo!");
+        }
+
+        if (avaliacaoRepository.existsByDisciplinaIdAndNomeAndDataAndIdNot(disciplina.getId(), dto.getNome(), dto.getData(), id)) {
             throw new DatabaseException("Já existe avaliação com esse nome nessa disciplina nessa data");
         }
 
         avaliacao.setNome(dto.getNome());
         avaliacao.setPeso(dto.getPeso());
         avaliacao.setData(dto.getData());
+        avaliacao.setDisciplina(disciplina);
 
         Avaliacao avaliacaoSalva = avaliacaoRepository.save(avaliacao);
         return new AvaliacaoResponseDTO(avaliacaoSalva);

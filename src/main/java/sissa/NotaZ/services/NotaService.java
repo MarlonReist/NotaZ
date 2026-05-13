@@ -40,6 +40,10 @@ public class NotaService {
         Aluno aluno = alunoRepository.findById(dto.getAlunoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado. Id: " + dto.getAlunoId()));
 
+        if (!aluno.getUsuario().isAtivo()) {
+            throw new DatabaseException("Aluno informado está inativo!");
+        }
+
         Avaliacao avaliacao = avaliacaoRepository.findById(dto.getAvaliacaoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Avaliação não encontrada. Id: " + dto.getAvaliacaoId()));
 
@@ -81,6 +85,10 @@ public class NotaService {
         Aluno aluno = alunoRepository.findById(dto.getAlunoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado. Id: " + dto.getAlunoId()));
 
+        if (!aluno.getUsuario().isAtivo()) {
+            throw new DatabaseException("Aluno informado está inativo!");
+        }
+
         Avaliacao avaliacao = avaliacaoRepository.findById(dto.getAvaliacaoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Avaliação não encontrada. Id: " + dto.getAvaliacaoId()));
 
@@ -100,6 +108,10 @@ public class NotaService {
 
         Aluno alunoExistente = alunoRepository.findById(alunoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado. Id: " + alunoId));
+
+        if (!alunoExistente.getUsuario().isAtivo()) {
+            throw new DatabaseException("Aluno informado está inativo!");
+        }
 
         Disciplina disciplinaExistente = disciplinaRepository.findById(disciplinaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada. Id: " + disciplinaId));

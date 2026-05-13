@@ -39,8 +39,16 @@ public class BoletimItemService {
         Boletim boletim = boletimRepository.findById(dto.getBoletimId())
                 .orElseThrow(() -> new ResourceNotFoundException("Boletim não encontrado. Id: " + dto.getBoletimId()));
 
+        if (!boletim.getAluno().getUsuario().isAtivo()) {
+            throw new DatabaseException("Aluno do boletim está inativo!");
+        }
+
         Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada. Id: " + dto.getDisciplinaId()));
+
+        if (!disciplina.getProfessor().getUsuario().isAtivo()) {
+            throw new DatabaseException("Professor da disciplina está inativo!");
+        }
 
         if (boletimItemRepository.existsByBoletimIdAndDisciplinaId(boletim.getId(), disciplina.getId())) {
             throw new DatabaseException("Já existe item de boletim para esta disciplina neste boletim!");
@@ -92,8 +100,16 @@ public class BoletimItemService {
         Boletim boletim = boletimRepository.findById(dto.getBoletimId())
                 .orElseThrow(() -> new ResourceNotFoundException("Boletim não encontrado. Id: " + dto.getBoletimId()));
 
+        if (!boletim.getAluno().getUsuario().isAtivo()) {
+            throw new DatabaseException("Aluno do boletim está inativo!");
+        }
+
         Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada. Id: " + dto.getDisciplinaId()));
+
+        if (!disciplina.getProfessor().getUsuario().isAtivo()) {
+            throw new DatabaseException("Professor da disciplina está inativo!");
+        }
 
         if (boletimItemRepository.existsByBoletimIdAndDisciplinaIdAndIdNot(boletim.getId(), disciplina.getId(), id)) {
             throw new DatabaseException("Já existe item de boletim para esta disciplina neste boletim!");

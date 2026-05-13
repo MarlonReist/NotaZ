@@ -32,6 +32,10 @@ public class DisciplinaService {
         Professor professor = professorRepository.findById(dto.getProfessorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado. Id: " + dto.getProfessorId()));
 
+        if (!professor.getUsuario().isAtivo()) {
+            throw new DatabaseException("Professor informado está inativo!");
+        }
+
         if (disciplinaRepository.existsByProfessorIdAndNome(dto.getProfessorId(), dto.getNome())) {
             throw new DatabaseException(("Já existe disciplina com esse nome para este professor!"));
         }
@@ -74,6 +78,10 @@ public class DisciplinaService {
 
         Professor professor = professorRepository.findById(dto.getProfessorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado. Id: " + dto.getProfessorId()));
+
+        if (!professor.getUsuario().isAtivo()) {
+            throw new DatabaseException("Professor informado está inativo!");
+        }
 
         Optional<Disciplina> encontrada = disciplinaRepository.findByProfessorIdAndNome(
                 dto.getProfessorId(), dto.getNome());

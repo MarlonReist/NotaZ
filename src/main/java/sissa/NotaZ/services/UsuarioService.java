@@ -76,8 +76,10 @@ public class UsuarioService {
 
         if (outroUsuario == null || outroUsuario.getId().equals(usuarioExistente.getId())) {
             usuarioExistente.setNome(dto.getNome());
-            usuarioExistente.setSenha(dto.getSenha());
             usuarioExistente.setEmail(dto.getEmail());
+            if (dto.getSenha() != null && !dto.getSenha().isBlank()) {
+                usuarioExistente.setSenha(dto.getSenha());
+            }
 
             Usuario usuarioSalvo = usuarioRepository.save(usuarioExistente);
             return new UsuarioResponseDTO(usuarioSalvo);

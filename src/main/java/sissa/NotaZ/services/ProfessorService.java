@@ -42,6 +42,10 @@ public class ProfessorService {
             throw new DatabaseException("Usuário informado não é do tipo PROFESSOR");
         }
 
+        if (!usuario.isAtivo()) {
+            throw new DatabaseException("Usuário informado está inativo!");
+        }
+
         if (professorRepository.existsByUsuarioId(dto.getUsuarioId())) {
             throw new DatabaseException("Usuário já está vinculado a um professor!");
         }
@@ -93,6 +97,10 @@ public class ProfessorService {
 
         if (usuario.getTipo() != TipoEnum.PROFESSOR) {
             throw new DatabaseException("Usuário informado não é do tipo PROFESSOR");
+        }
+
+        if (!usuario.isAtivo()) {
+            throw new DatabaseException("Usuário informado está inativo!");
         }
 
         boolean trocandoUsuario = !dto.getUsuarioId().equals(professorExistente.getUsuario().getId());

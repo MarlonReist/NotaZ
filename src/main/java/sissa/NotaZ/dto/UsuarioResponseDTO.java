@@ -16,6 +16,7 @@ public class UsuarioResponseDTO implements Serializable {
     private String email;
     private TipoEnum tipo;
     private LocalDate dataCriacao;
+    private Boolean ativo;
 
     public UsuarioResponseDTO(){
     }
@@ -26,6 +27,7 @@ public class UsuarioResponseDTO implements Serializable {
         email = usuario.getEmail();
         tipo = usuario.getTipo();
         dataCriacao = usuario.getDataCriacao();
+        ativo = usuario.isAtivo();
     }
 
     public Long getId() {
@@ -66,5 +68,13 @@ public class UsuarioResponseDTO implements Serializable {
 
     public void setDataCriacao(LocalDate dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 }

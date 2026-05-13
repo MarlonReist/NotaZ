@@ -49,6 +49,10 @@ public class AlunoService {
             throw new DatabaseException("Usuário informado não é do tipo ALUNO");
         }
 
+        if (!usuario.isAtivo()) {
+            throw new DatabaseException("Usuário informado está inativo!");
+        }
+
         if (alunoRepository.existsByUsuarioId(dto.getUsuarioId())) {
             throw new DatabaseException("Usuário já está vinculado a um aluno!");
         }
@@ -105,6 +109,10 @@ public class AlunoService {
 
         if (usuario.getTipo() != TipoEnum.ALUNO) {
             throw new DatabaseException("Usuário informado não é do tipo ALUNO");
+        }
+
+        if (!usuario.isAtivo()) {
+            throw new DatabaseException("Usuário informado está inativo!");
         }
 
         boolean trocandoUsuario = !dto.getUsuarioId().equals(alunoExistente.getUsuario().getId());
