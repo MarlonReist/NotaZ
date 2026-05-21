@@ -70,7 +70,7 @@ public class AvaliacaoService {
 
 
     public List<AvaliacaoResponseDTO> listarTodos() {
-        List<Avaliacao> list = avaliacaoRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        List<Avaliacao> list = avaliacaoRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return list.stream().map(AvaliacaoResponseDTO::new).collect(Collectors.toList());
     }
 

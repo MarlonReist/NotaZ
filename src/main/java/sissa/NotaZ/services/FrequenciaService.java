@@ -73,6 +73,14 @@ public class FrequenciaService {
         return list.stream().map(FrequenciaResponseDTO::new).collect(Collectors.toList());
     }
 
+    public List<FrequenciaResponseDTO> listarPorAula(Long aulaId) {
+        aulaRepository.findById(aulaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Aula não encontrada. Id: " + aulaId));
+
+        List<Frequencia> list = frequenciaRepository.findByAulaId(aulaId);
+        return list.stream().map(FrequenciaResponseDTO::new).collect(Collectors.toList());
+    }
+
     @Transactional
     public void deletar(Long id) {
         frequenciaRepository.findById(id)

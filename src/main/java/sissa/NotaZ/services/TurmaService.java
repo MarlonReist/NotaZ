@@ -64,7 +64,7 @@ public class TurmaService {
 
 
     public List<TurmaResponseDTO> listarTodos() {
-        List<Turma> list = turmaRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        List<Turma> list = turmaRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return list.stream().map(TurmaResponseDTO::new).collect(Collectors.toList());
     }
 

@@ -12,4 +12,6 @@ public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
     boolean existsByAlunoIdAndAulaIdAndIdNot(Long alunoId, Long aulaId, Long id);
 
     List<Frequencia> findByAlunoIdAndAulaDisciplinaId(Long alunoId, Long disciplinaId);
+
+    List<Frequencia> findByAulaId(Long aulaId);
 }

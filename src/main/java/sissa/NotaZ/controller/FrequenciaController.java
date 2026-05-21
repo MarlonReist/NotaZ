@@ -45,6 +45,12 @@ public class FrequenciaController {
         return ResponseEntity.ok(listDto);
     }
 
+    @GetMapping(value = "/aula/{aulaId}")
+    public ResponseEntity<List<FrequenciaResponseDTO>> listarPorAula(@PathVariable Long aulaId) {
+        List<FrequenciaResponseDTO> listDto = frequenciaService.listarPorAula(aulaId);
+        return ResponseEntity.ok(listDto);
+    }
+
     @GetMapping(value = "/resumo/aluno/{alunoId}/disciplina/{disciplinaId}")
     public ResponseEntity<ResumoFrequenciaResponseDTO> calcularResumoAlunoDisciplina(
             @PathVariable Long alunoId,

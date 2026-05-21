@@ -87,7 +87,7 @@ public class AlunoService {
 
 
     public List<AlunoResponseDTO> listarTodos() {
-        List<Aluno> list = alunoRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        List<Aluno> list = alunoRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return list.stream().map(AlunoResponseDTO::new).collect(Collectors.toList());
     }
 

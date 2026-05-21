@@ -64,7 +64,7 @@ public class UsuarioService {
     }
 
     public List<UsuarioResponseDTO> listarTodos() {
-        List<Usuario> list = usuarioRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        List<Usuario> list = usuarioRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return list.stream().map(UsuarioResponseDTO::new).collect(Collectors.toList());
     }
 

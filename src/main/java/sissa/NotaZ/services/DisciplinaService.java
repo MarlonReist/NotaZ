@@ -68,7 +68,7 @@ public class DisciplinaService {
 
 
     public List<DisciplinaResponseDTO> listarTodos() {
-        List<Disciplina> list = disciplinaRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        List<Disciplina> list = disciplinaRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return list.stream().map(DisciplinaResponseDTO::new).collect(Collectors.toList());
     }
 

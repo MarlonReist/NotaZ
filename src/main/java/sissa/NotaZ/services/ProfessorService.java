@@ -78,7 +78,7 @@ public class ProfessorService {
 
 
     public List<ProfessorResponseDTO> listarTodos() {
-        List<Professor> list = professorRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        List<Professor> list = professorRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return list.stream().map(ProfessorResponseDTO::new).collect(Collectors.toList());
     }
 
