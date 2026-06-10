@@ -1,8 +1,10 @@
 .git
+.gitignore
 .idea
 .mvn/wrapper/maven-wrapper.jar
 target
 node_modules
 *.log
+npm-debug.log
 *.iml
 HELP.md
