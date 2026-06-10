@@ -1,6 +1,6 @@
 package sissa.NotaZ.services;
 
-import org.junit.jupiter.api.AfterAll;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sissa.NotaZ.domain.*;
@@ -116,10 +116,5 @@ public class FrequenciaServiceTest {
         assertThat(resultado.getPercentualFaltas()).isCloseTo(50.0, within(0.001));
         assertThat(resultado.getFrequenciaMinima()).isEqualTo(70.0);
         assertThat(resultado.getSituacaoFrequencia()).isEqualTo("REPROVADO_POR_FALTA");
-    }
-
-    @AfterAll
-    static void afterAll() {
-
     }
 }
