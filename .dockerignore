@@ -1,0 +1,8 @@
+.git
+.idea
+.mvn/wrapper/maven-wrapper.jar
+target
+node_modules
+*.log
+*.iml
+HELP.md
